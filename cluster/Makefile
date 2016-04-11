@@ -1,4 +1,4 @@
-CXX = $(shell which g++)
+CXX = $(shell which g++-4.8)
 ifneq ($(CXX),)
   #$(warning Using clang: "$(CXX)")
   ARCH = -D__extern_always_inline=inline

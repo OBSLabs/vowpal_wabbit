@@ -1,9 +1,9 @@
-CXX = $(shell which g++)
+CXX = $(shell which g++-4.8)
 # -- if you want to test 32-bit use this instead,
 #    it sometimes reveals type portability issues
 # CXX = $(shell which g++) -m32
 ifneq ($(CXX),)
-  #$(warning Using clang: "$(CXX)")
+  $(warning Using clang replacement: "$(CXX)")
   ARCH = -D__extern_always_inline=inline
 else
   CXX = clang++
@@ -37,6 +37,7 @@ ifeq "CYGWIN" "$(findstring CYGWIN,$(UNAME))"
   NPROCS:=$(shell grep -c ^processor /proc/cpuinfo)
 endif
 ifeq ($(UNAME), Darwin)
+  ARCH += -msse3 -msse4.2
   LIBS = -lboost_program_options-mt -lboost_serialization-mt -l pthread -l z
   # On Macs, the location isn't always clear
   #	brew uses /usr/local

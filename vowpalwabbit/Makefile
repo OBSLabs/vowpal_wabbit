@@ -1,6 +1,10 @@
 BINARIES = vw active_interactor
 MANPAGES = vw.1
 
+ifeq ($(UNAME), Darwin)
+  SSE_FLAGS =  -msse3 -msse4.2
+endif
+
 VWLIBS := -L. -l vw -l allreduce
 STDLIBS = $(BOOST_LIBRARY) $(LIBS)
 
@@ -27,7 +31,7 @@ allreduce_SOURCES = $(shell grep liballreduce_la_SOURCES Makefile.am | cut -d '=
 allreduce_OBJECTS = $(patsubst %.cc,%.o,$(allreduce_SOURCES))
 
 %.d:	%.cc config.h
-	$(CXX) -std=c++0x -MM $< > $@
+	$(CXX) $(SSE_FLAGS) -std=c++0x -MM $< > $@
 
 -include $(vw_DEPS)
 
